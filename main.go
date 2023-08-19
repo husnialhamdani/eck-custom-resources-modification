@@ -31,12 +31,12 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	configv2 "github.com/xco-sk/eck-custom-resources/apis/config/v2"
-	eseckv1alpha1 "github.com/xco-sk/eck-custom-resources/apis/es.eck/v1alpha1"
+	configv2 "github.com/husnialhamdani/eck-custom-resources/apis/config/v2"
+	eseckv1alpha1 "github.com/husnialhamdani/eck-custom-resources/apis/es.eck/v1alpha1"
 
-	kibanaeckv1alpha1 "github.com/xco-sk/eck-custom-resources/apis/kibana.eck/v1alpha1"
-	eseckcontrollers "github.com/xco-sk/eck-custom-resources/controllers/es.eck"
-	kibanaeckcontrollers "github.com/xco-sk/eck-custom-resources/controllers/kibana.eck"
+	kibanaeckv1alpha1 "github.com/husnialhamdani/eck-custom-resources/apis/kibana.eck/v1alpha1"
+	eseckcontrollers "github.com/husnialhamdani/eck-custom-resources/controllers/es.eck"
+	kibanaeckcontrollers "github.com/husnialhamdani/eck-custom-resources/controllers/kibana.eck"
 	//+kubebuilder:scaffold:imports
 )
 

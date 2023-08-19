@@ -3,11 +3,12 @@ package elasticsearch
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"strings"
 
 	"github.com/elastic/go-elasticsearch/v8"
-	"github.com/xco-sk/eck-custom-resources/apis/es.eck/v1alpha1"
-	"github.com/xco-sk/eck-custom-resources/utils"
+	"github.com/husnialhamdani/eck-custom-resources/apis/es.eck/v1alpha1"
+	"github.com/husnialhamdani/eck-custom-resources/utils"
 	k8sv1 "k8s.io/api/core/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -55,4 +56,30 @@ func getUserSecret(cli client.Client, ctx context.Context, namespace string, use
 		return err
 	}
 	return nil
+}
+
+func createApiKey(esClient *elasticsearch.Client, cli client.Client, ctx context.Context) (ctrl.Result, error) {
+
+	apiKeyName, marshallErr := json.Marshal("default-apikey")
+	if marshallErr != nil {
+		return ctrl.Result{}, marshallErr
+	}
+
+	res, err := esClient.Security.CreateAPIKey(strings.NewReader(string(apiKeyName)))
+	if err != nil || res.IsError() {
+		return utils.GetRequeueResult(), GetClientErrorOrResponseError(err, res)
+	}
+
+	var responseBody map[string]interface{}
+	if err := json.NewDecoder(res.Body).Decode(&responseBody); err != nil {
+		return ctrl.Result{}, fmt.Errorf("failed to decode API Key response: %v", err)
+	}
+
+	apiKeyEncoded, apiKeyExists := responseBody["encoded"].(string)
+	if !apiKeyExists {
+		return ctrl.Result{}, fmt.Errorf("API Key ID not found in response")
+	}
+	fmt.Println(apiKeyEncoded)
+
+	return ctrl.Result{}, nil
 }

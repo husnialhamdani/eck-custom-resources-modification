@@ -18,7 +18,7 @@ COPY controllers/ controllers/
 ARG TARGETOS TARGETARCH
 
 # Build
-RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -a -o manager main.go
+RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=amd64 go build -a -o manager main.go
 
 # Use distroless as minimal base image to package the manager binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details

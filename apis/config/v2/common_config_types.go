@@ -9,6 +9,18 @@ type UsernamePasswordAuthentication struct {
 	UserName string `json:"userName"`
 }
 
+// ServiceAccount Definition of service account authentication
+type ServiceAccountAuthentication struct {
+	// +kubebuilder:validation:MinLength=0
+	ServiceAccount string `json:"serviceAccount"`
+}
+
+// APIKey Definition of APIKey authentication
+type APIKeyAuthentication struct {
+	// +kubebuilder:validation:MinLength=0
+	APIKey string `json:"apiKey"`
+}
+
 // PublicCertificate Configuration for public certificate used for communication with target
 type PublicCertificate struct {
 	// +required

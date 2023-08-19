@@ -35,4 +35,6 @@ type KibanaSpec struct {
 type KibanaAuthentication struct {
 	// +optional
 	UsernamePassword *UsernamePasswordAuthentication `json:"usernamePasswordSecret,omitempty"`
+	ServiceAccount   *ServiceAccountAuthentication   `json:"serviceAccount,omitempty"`
+	APIKey           *APIKeyAuthentication           `json:"apiKey,omitempty"`
 }

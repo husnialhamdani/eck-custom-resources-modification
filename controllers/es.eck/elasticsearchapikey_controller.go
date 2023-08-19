@@ -34,29 +34,29 @@ import (
 	eseckv1alpha1 "github.com/husnialhamdani/eck-custom-resources/apis/es.eck/v1alpha1"
 )
 
-// ElasticsearchRoleReconciler reconciles a ElasticsearchRole object
-type ElasticsearchRoleReconciler struct {
+// ElasticsearchApikeyReconciler reconciles a ElasticsearchApikey object
+type ElasticsearchApikeyReconciler struct {
 	client.Client
 	Scheme        *runtime.Scheme
 	ProjectConfig configv2.ProjectConfig
 	Recorder      record.EventRecorder
 }
 
-//+kubebuilder:rbac:groups=es.eck.github.com,resources=elasticsearchroles,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=es.eck.github.com,resources=elasticsearchroles/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=es.eck.github.com,resources=elasticsearchroles/finalizers,verbs=update
+//+kubebuilder:rbac:groups=es.eck.github.com,resources=elasticsearchapikeys,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=es.eck.github.com,resources=elasticsearchapikeys/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=es.eck.github.com,resources=elasticsearchapikeys/finalizers,verbs=update
 
-func (r *ElasticsearchRoleReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+func (r *ElasticsearchApikeyReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	logger := log.FromContext(ctx)
 
-	finalizer := "elasticsearchroles.es.eck.github.com/finalizer"
+	finalizer := "elasticsearchapikeys.es.eck.github.com/finalizer"
 
-	var role eseckv1alpha1.ElasticsearchRole
-	if err := r.Get(ctx, req.NamespacedName, &role); err != nil {
+	var apikey eseckv1alpha1.ElasticsearchApikey
+	if err := r.Get(ctx, req.NamespacedName, &apikey); err != nil {
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	targetInstance, err := r.getTargetInstance(&role, role.Spec.TargetConfig, ctx, req.Namespace)
+	targetInstance, err := r.getTargetInstance(&apikey, apikey.Spec.TargetConfig, ctx, req.Namespace)
 	if err != nil {
 		return utils.GetRequeueResult(), err
 	}
@@ -72,35 +72,35 @@ func (r *ElasticsearchRoleReconciler) Reconcile(ctx context.Context, req ctrl.Re
 		return utils.GetRequeueResult(), client.IgnoreNotFound(createClientErr)
 	}
 
-	if role.ObjectMeta.DeletionTimestamp.IsZero() {
-		logger.Info("Creating/Updating Role", "role", req.Name)
-		res, err := esutils.UpsertRole(esClient, role)
+	if apikey.ObjectMeta.DeletionTimestamp.IsZero() {
+		logger.Info("Creating/Updating Apikey", "apikey", req.Name)
+		res, err := esutils.UpsertApikey(esClient, apikey)
 
 		if err == nil {
-			r.Recorder.Event(&role, "Normal", "Created",
-				fmt.Sprintf("Created/Updated %s/%s %s", role.APIVersion, role.Kind, role.Name))
+			r.Recorder.Event(&apikey, "Normal", "Created",
+				fmt.Sprintf("Created/Updated %s/%s %s", apikey.APIVersion, apikey.Kind, apikey.Name))
 		} else {
-			r.Recorder.Event(&role, "Warning", "Failed to create/update",
-				fmt.Sprintf("Failed to create/update %s/%s %s: %s", role.APIVersion, role.Kind, role.Name, err.Error()))
+			r.Recorder.Event(&apikey, "Warning", "Failed to create/update",
+				fmt.Sprintf("Failed to create/update %s/%s %s: %s", apikey.APIVersion, apikey.Kind, apikey.Name, err.Error()))
 		}
 
-		if !controllerutil.ContainsFinalizer(&role, finalizer) {
-			controllerutil.AddFinalizer(&role, finalizer)
-			if err := r.Update(ctx, &role); err != nil {
+		if !controllerutil.ContainsFinalizer(&apikey, finalizer) {
+			controllerutil.AddFinalizer(&apikey, finalizer)
+			if err := r.Update(ctx, &apikey); err != nil {
 				return ctrl.Result{}, err
 			}
 		}
 		return res, err
 	} else {
 		// The object is being deleted
-		if controllerutil.ContainsFinalizer(&role, finalizer) {
-			logger.Info("Deleting object", "role", role.Name)
-			if _, err := esutils.DeleteRole(esClient, req.Name); err != nil {
+		if controllerutil.ContainsFinalizer(&apikey, finalizer) {
+			logger.Info("Deleting object", "apikey", apikey.Name)
+			if _, err := esutils.DeleteApikey(esClient, req.Name); err != nil {
 				return ctrl.Result{}, err
 			}
 
-			controllerutil.RemoveFinalizer(&role, finalizer)
-			if err := r.Update(ctx, &role); err != nil {
+			controllerutil.RemoveFinalizer(&apikey, finalizer)
+			if err := r.Update(ctx, &apikey); err != nil {
 				return ctrl.Result{}, err
 			}
 		}
@@ -109,7 +109,7 @@ func (r *ElasticsearchRoleReconciler) Reconcile(ctx context.Context, req ctrl.Re
 	}
 }
 
-func (r *ElasticsearchRoleReconciler) getTargetInstance(object runtime.Object, TargetConfig eseckv1alpha1.CommonElasticsearchConfig, ctx context.Context, namespace string) (*configv2.ElasticsearchSpec, error) {
+func (r *ElasticsearchApikeyReconciler) getTargetInstance(object runtime.Object, TargetConfig eseckv1alpha1.CommonElasticsearchConfig, ctx context.Context, namespace string) (*configv2.ElasticsearchSpec, error) {
 	targetInstance := r.ProjectConfig.Elasticsearch
 	if TargetConfig.ElasticsearchInstance != "" {
 		var resourceInstance eseckv1alpha1.ElasticsearchInstance
@@ -124,9 +124,9 @@ func (r *ElasticsearchRoleReconciler) getTargetInstance(object runtime.Object, T
 }
 
 // SetupWithManager sets up the controller with the Manager.
-func (r *ElasticsearchRoleReconciler) SetupWithManager(mgr ctrl.Manager) error {
+func (r *ElasticsearchApikeyReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&eseckv1alpha1.ElasticsearchRole{}).
+		For(&eseckv1alpha1.ElasticsearchApikey{}).
 		WithEventFilter(utils.CommonEventFilter()).
 		Complete(r)
 }

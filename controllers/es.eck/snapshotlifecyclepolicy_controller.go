@@ -20,9 +20,9 @@ import (
 	"context"
 	"fmt"
 
-	configv2 "github.com/xco-sk/eck-custom-resources/apis/config/v2"
-	"github.com/xco-sk/eck-custom-resources/utils"
-	esutils "github.com/xco-sk/eck-custom-resources/utils/elasticsearch"
+	configv2 "github.com/husnialhamdani/eck-custom-resources/apis/config/v2"
+	"github.com/husnialhamdani/eck-custom-resources/utils"
+	esutils "github.com/husnialhamdani/eck-custom-resources/utils/elasticsearch"
 	"k8s.io/client-go/tools/record"
 
 	"k8s.io/apimachinery/pkg/runtime"
@@ -31,7 +31,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
-	eseckv1alpha1 "github.com/xco-sk/eck-custom-resources/apis/es.eck/v1alpha1"
+	eseckv1alpha1 "github.com/husnialhamdani/eck-custom-resources/apis/es.eck/v1alpha1"
 )
 
 // SnapshotLifecyclePolicyReconciler reconciles a SnapshotLifecyclePolicy object

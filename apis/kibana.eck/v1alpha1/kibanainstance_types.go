@@ -17,7 +17,7 @@ limitations under the License.
 package v1alpha1
 
 import (
-	configv2 "github.com/xco-sk/eck-custom-resources/apis/config/v2"
+	configv2 "github.com/husnialhamdani/eck-custom-resources/apis/config/v2"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 

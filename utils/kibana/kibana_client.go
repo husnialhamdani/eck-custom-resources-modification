@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"strings"
 
-	configv2 "github.com/xco-sk/eck-custom-resources/apis/config/v2"
-	"github.com/xco-sk/eck-custom-resources/utils"
+	configv2 "github.com/husnialhamdani/eck-custom-resources/apis/config/v2"
+	"github.com/husnialhamdani/eck-custom-resources/utils"
 	k8sv1 "k8s.io/api/core/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -93,6 +93,11 @@ func (kClient Client) doRequest(httpRequest *http.Request) (*http.Response, erro
 			return nil, err
 		}
 		httpRequest.SetBasicAuth(kClient.KibanaSpec.Authentication.UsernamePassword.UserName, string(userSecret.Data[kClient.KibanaSpec.Authentication.UsernamePassword.UserName]))
+	}
+
+	if kClient.KibanaSpec.Authentication != nil && kClient.KibanaSpec.Authentication.APIKey != nil {
+		var bearer = "ApiKey " + kClient.KibanaSpec.Authentication.APIKey.APIKey
+		httpRequest.Header.Set("Authorization", bearer)
 	}
 
 	httpClient, err := kClient.getHttpClient()
