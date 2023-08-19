@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	"github.com/elastic/go-elasticsearch/v8"
-	"github.com/xco-sk/eck-custom-resources/apis/es.eck/v1alpha1"
-	"github.com/xco-sk/eck-custom-resources/utils"
+	"github.com/husnialhamdani/eck-custom-resources/apis/es.eck/v1alpha1"
+	"github.com/husnialhamdani/eck-custom-resources/utils"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log"
