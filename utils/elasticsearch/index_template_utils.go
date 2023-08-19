@@ -4,8 +4,8 @@ import (
 	"strings"
 
 	"github.com/elastic/go-elasticsearch/v8"
-	"github.com/xco-sk/eck-custom-resources/apis/es.eck/v1alpha1"
-	"github.com/xco-sk/eck-custom-resources/utils"
+	"github.com/husnialhamdani/eck-custom-resources/apis/es.eck/v1alpha1"
+	"github.com/husnialhamdani/eck-custom-resources/utils"
 	ctrl "sigs.k8s.io/controller-runtime"
 )
 

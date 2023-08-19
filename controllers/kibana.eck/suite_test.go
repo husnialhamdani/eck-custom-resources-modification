@@ -31,8 +31,8 @@ import (
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	v2 "github.com/xco-sk/eck-custom-resources/apis/config/v2"
-	kibanaeckv1alpha1 "github.com/xco-sk/eck-custom-resources/apis/kibana.eck/v1alpha1"
+	v2 "github.com/husnialhamdani/eck-custom-resources/apis/config/v2"
+	kibanaeckv1alpha1 "github.com/husnialhamdani/eck-custom-resources/apis/kibana.eck/v1alpha1"
 	//+kubebuilder:scaffold:imports
 )
 

@@ -20,9 +20,9 @@ import (
 	"context"
 	"fmt"
 
-	configv2 "github.com/xco-sk/eck-custom-resources/apis/config/v2"
-	"github.com/xco-sk/eck-custom-resources/utils"
-	kibanaUtils "github.com/xco-sk/eck-custom-resources/utils/kibana"
+	configv2 "github.com/husnialhamdani/eck-custom-resources/apis/config/v2"
+	"github.com/husnialhamdani/eck-custom-resources/utils"
+	kibanaUtils "github.com/husnialhamdani/eck-custom-resources/utils/kibana"
 	"k8s.io/client-go/tools/record"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
@@ -31,7 +31,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
-	kibanaeckv1alpha1 "github.com/xco-sk/eck-custom-resources/apis/kibana.eck/v1alpha1"
+	kibanaeckv1alpha1 "github.com/husnialhamdani/eck-custom-resources/apis/kibana.eck/v1alpha1"
 )
 
 // DataViewReconciler reconciles a DataView object
